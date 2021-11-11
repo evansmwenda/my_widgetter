@@ -11,15 +11,18 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 
+import '../ui/views/bottomsheet_view/bottomsheet_view.dart';
 import '../ui/views/profile/profile_view.dart';
 import '../ui/views/startup_view/startup_view.dart';
 
 class Routes {
   static const String startupView = '/';
   static const String profileView = '/profile-view';
+  static const String bottomSheetView = '/bottom-sheet-view';
   static const all = <String>{
     startupView,
     profileView,
+    bottomSheetView,
   };
 }
 
@@ -29,6 +32,7 @@ class StackedRouter extends RouterBase {
   final _routes = <RouteDef>[
     RouteDef(Routes.startupView, page: StartupView),
     RouteDef(Routes.profileView, page: ProfileView),
+    RouteDef(Routes.bottomSheetView, page: BottomSheetView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -49,6 +53,15 @@ class StackedRouter extends RouterBase {
         settings: data,
       );
     },
+    BottomSheetView: (data) {
+      var args = data.getArgs<BottomSheetViewArguments>(
+        orElse: () => BottomSheetViewArguments(),
+      );
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => BottomSheetView(key: args.key),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -61,4 +74,10 @@ class ProfileViewArguments {
   final Key? key;
   final String name;
   ProfileViewArguments({this.key, required this.name});
+}
+
+/// BottomSheetView arguments holder class
+class BottomSheetViewArguments {
+  final Key? key;
+  BottomSheetViewArguments({this.key});
 }
